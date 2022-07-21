@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:news_app/layout/news_layout.dart';
 import 'package:news_app/shared/bloc_observer.dart';
+import 'package:news_app/shared/network/remote/dio_helper.dart';
 
 void main() {
   BlocOverrides.runZoned(
         () {
-      runApp(MyApp());
+          DioHelper.init();
+          runApp(MyApp());
     },
     blocObserver: MyBlocObserver(),
   );
@@ -20,6 +22,10 @@ class MyApp extends StatelessWidget
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primarySwatch: Colors.deepOrange,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.deepOrange,
+        ),
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
@@ -39,7 +45,7 @@ class MyApp extends StatelessWidget
         ),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.deepOrangeAccent,
+          selectedItemColor: Colors.deepOrange,
           elevation: 25,
         ),
       ),

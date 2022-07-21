@@ -6,6 +6,7 @@ import 'package:news_app/modules/science/science_screen.dart';
 import 'package:news_app/modules/settings/settings_screen.dart';
 import 'package:news_app/modules/sports/sports_screen.dart';
 import 'package:news_app/shared/cubit/states.dart';
+import 'package:news_app/shared/network/remote/dio_helper.dart';
 
 class AppCubit extends Cubit<AppStates>
 {
@@ -55,6 +56,80 @@ class AppCubit extends Cubit<AppStates>
     emit(AppBottomNavState());
   }
 
+  List<dynamic> business = [];
+
+  void getBusiness()
+  {
+    emit(AppLoadingGetBusinessState());
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'country':'eg',
+        'category':'business',
+        'apiKey':'60e6fb3ed24f4b0ca2ae8935acacf006',
+      },
+    ).then((value)
+    {
+      // print(value.data["articles"][0]['title']);
+      business = value.data['articles'];
+      print(business[0]['title']);
+      emit(AppGetBusinessSuccessState());
+    }).catchError((error)
+    {
+      print(error.toString());
+      emit(AppGetBusinessErrorState(error.toString()));
+    });
+  }
+
+  List<dynamic> sports = [];
+
+  void getSports()
+  {
+    emit(AppLoadingGetSportsState());
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'country':'eg',
+        'category':'sports',
+        'apiKey':'60e6fb3ed24f4b0ca2ae8935acacf006',
+      },
+    ).then((value)
+    {
+      // print(value.data["articles"][0]['title']);
+      sports = value.data['articles'];
+      print(sports[0]['title']);
+      emit(AppGetSportsSuccessState());
+    }).catchError((error)
+    {
+      print(error.toString());
+      emit(AppGetSportsErrorState(error.toString()));
+    });
+  }
+
+  List<dynamic> science = [];
+
+  void getScience()
+  {
+    emit(AppLoadingGetScienceState());
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'country':'eg',
+        'category':'science',
+        'apiKey':'60e6fb3ed24f4b0ca2ae8935acacf006',
+      },
+    ).then((value)
+    {
+      // print(value.data["articles"][0]['title']);
+      science = value.data['articles'];
+      print(science[0]['title']);
+      emit(AppGetScienceSuccessState());
+    }).catchError((error)
+    {
+      print(error.toString());
+      emit(AppGetScienceErrorState(error.toString()));
+    });
+  }
 
 
 
