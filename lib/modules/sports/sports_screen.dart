@@ -16,7 +16,7 @@ class SportsScreen extends StatelessWidget {
       {
         var list =AppCubit.get(context).sports;
 
-        return articleBuilder(list);
+        return articleBuilder(list, context);
       },
     );
   }

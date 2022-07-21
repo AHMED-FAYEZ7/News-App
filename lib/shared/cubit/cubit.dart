@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/modules/business/business_screen.dart';
 import 'package:news_app/modules/science/science_screen.dart';
-import 'package:news_app/modules/settings/settings_screen.dart';
 import 'package:news_app/modules/sports/sports_screen.dart';
 import 'package:news_app/shared/cubit/states.dart';
+import 'package:news_app/shared/network/local/cache_helper.dart';
 import 'package:news_app/shared/network/remote/dio_helper.dart';
 
 class AppCubit extends Cubit<AppStates>
@@ -35,19 +35,12 @@ class AppCubit extends Cubit<AppStates>
         ),
       label: 'Science',
     ),
-    BottomNavigationBarItem(
-      icon: Icon(
-          Icons.settings,
-        ),
-      label: 'Settings',
-    ),
   ];
 
   List<Widget> screens = [
     BusinessScreen(),
     SportsScreen(),
     ScienceScreen(),
-    SettingsScreen(),
   ];
 
   void changeBottomNav(int index)
@@ -129,6 +122,21 @@ class AppCubit extends Cubit<AppStates>
       print(error.toString());
       emit(AppGetScienceErrorState(error.toString()));
     });
+  }
+
+  bool isDark = false;
+
+  void changeAppMode({bool? fromShared})
+  {
+    if(fromShared != null) {
+      isDark = fromShared;
+      emit(AppChangeModeStates());
+    } else {
+      isDark = !isDark;
+      CacheHelper.putBoolean(key: 'isDark', value: isDark).then((value) {
+        emit(AppChangeModeStates());
+      });
+    }
   }
 
 

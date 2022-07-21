@@ -9,41 +9,48 @@ class NewsLayout extends StatelessWidget
 {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => AppCubit()..getBusiness()..getSports()..getScience(),
-      child: BlocConsumer<AppCubit,AppStates>(
-        listener: (context,states) {},
-        builder: (context,states)
-        {
-          var cubit = AppCubit.get(context);
+    return BlocConsumer<AppCubit,AppStates>(
+      listener: (context,states) {},
+      builder: (context,states)
+      {
+        var cubit = AppCubit.get(context);
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'News App',
-              ),
-              actions: [
-                IconButton(
-                  onPressed: (){},
-                  icon: Icon(
-                    Icons.search,
-                    size: 25,
-                  ),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'News App',
+            ),
+            actions: [
+              IconButton(
+                onPressed: (){},
+                icon: Icon(
+                  Icons.search,
+                  size: 25,
                 ),
-              ],
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: cubit.bottomItems,
-              currentIndex: cubit.currentIndex,
-              onTap: (index)
-              {
-                cubit.changeBottomNav(index);
-              },
-            ),
-            body: cubit.screens[cubit.currentIndex],
-          );
-        },
-      ),
+              ),
+              IconButton(
+                onPressed: ()
+                {
+                  cubit.changeAppMode();
+                },
+                icon: Icon(
+                  Icons.brightness_4_outlined,
+                  size: 25,
+                ),
+              ),
+            ],
+          ),
+          bottomNavigationBar: BottomNavigationBar(
+            items: cubit.bottomItems,
+            currentIndex: cubit.currentIndex,
+            onTap: (index)
+            {
+              cubit.changeBottomNav(index);
+            },
+          ),
+          body: cubit.screens[cubit.currentIndex],
+        );
+      },
     );
   }
 
