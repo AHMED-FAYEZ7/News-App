@@ -75,5 +75,5 @@ Widget articleBuilder(list , context ,{isSearch = false}) => ConditionalBuilder(
     separatorBuilder: (context, index) => myDevider(),
     itemCount: list.length,
   ),
-  fallback: (context) => isSearch ? Container(): Center(child: CircularProgressIndicator()),
+  fallback: (context) => isSearch ? Container(): const Center(child: CircularProgressIndicator()),
 );
